@@ -37,7 +37,7 @@ extern "C" {
  * @brief maximum size of a fifo.
  * This Macro is internally needed for the fifo and should be set as small as possible
  */
-#define MAX_FIFO_SIZE   64
+#define MAX_FIFO_SIZE   128
 
 /**
  * @brief Enable Dynamic allocation of fifos

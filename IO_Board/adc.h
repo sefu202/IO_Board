@@ -16,7 +16,7 @@
 #include <assert.h>
 
 // Defines
-#define ADC_CHANNEL_NUM  16						///< Number of adc Channels
+#define ADC_CHANNEL_NUM  8						///< Number of adc Channels
 #define ADC_CHANNEL_LAST (ADC_CHANNEL_NUM -1)	///< last ADC channel
 
 /**

@@ -217,16 +217,13 @@ void usart_rx_irq(usart_handle_t *pHandle)
 	assert(pHandle!=NULL);
 	uint8_t ucsra = *(pHandle->baseReg + (&UCSR0A-&UDR0));
 	usart_basetype c = _read_from_udr(pHandle);
-	if (!c){
-		c = c++;
-	}
-
-	/*if (ucsra & (1 << FE0))
+	
+	if (ucsra & (1 << FE0))
 	{
 		if (usart_frameError_callback != NULL){
 			usart_frameError_callback(pHandle);
 		}
-		return;
+		//return;
 	}
 
 	if (ucsra & (1 << UPE0))
@@ -234,8 +231,8 @@ void usart_rx_irq(usart_handle_t *pHandle)
 		if (usart_parityError_callback != NULL){
 			usart_parityError_callback(pHandle);
 		}
-		return;
-	}*/
+		//return;
+	}
 
 	if (fifo_put(&(pHandle->rxFifo), &c) == FIFO_FULL || ucsra & (1 << DOR0))	// software fifo overflow or uart (hardware fifo) overflow
 	{

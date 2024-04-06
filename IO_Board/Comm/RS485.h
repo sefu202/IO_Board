@@ -10,10 +10,10 @@
 #define RS485_H_
 
 #include "usart.h"
-#include "ProcessImage.h"
+#include <ProcessImage.h>
 
 #define RX_ADDRESS		1
-#define MAX_FRAME_SIZE	32	// Max frame size in bytes
+#define MAX_FRAME_SIZE	48	// Max frame size in bytes
 
 /**
  * @brief initializes rs485 bus communication

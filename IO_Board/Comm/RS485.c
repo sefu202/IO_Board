@@ -7,6 +7,8 @@
 
 #include "RS485.h"
 #include "SysTick.h"
+#include "CRC16.h"
+#include <string.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
 
@@ -26,13 +28,13 @@ static void rs485_disableRx(){
 }
 
 static void rs485_setTx(){
-	rs485_disableRx();
+	//rs485_disableRx();
 	PORTD |= (1<<PD2)|(1<<PD3);
 	_delay_us(5);
 }
 
 static void rs485_setRx(){
-	rs485_enableRx();
+	//rs485_enableRx();
 	PORTD &= ~((1<<PD2)|(1<<PD3));
 }
 
@@ -62,26 +64,34 @@ void rs485_update(){
 	uint8_t rxFifoLevel = usart_getRxFifoLevel(&usart0);
 	
 	// Reenable Rx if it was disabled for more than 20ms in any case
-	if ((systick_getTick() - rxDisableTick) > 200){
+	/*if ((systick_getTick() - rxDisableTick) > 200){
 		rs485_setRx();
-	}
+	}*/
 	
-	if ((systick_getTick() - lastRxTick) > 30 && rxFifoLevel) {	// 3ms since last symbol received
+	if (systick_deltat(systick_getTick(), lastRxTick) > 50 && rxFifoLevel) {	// 3ms since last symbol received
 		
 		if (rxFifoLevel > MAX_FRAME_SIZE){	// clear bogus content
 			fifo_flush(&(usart0.rxFifo));
 		}
 		else{
 			
-			rs485_setTx();
 			uint8_t rxFrame[MAX_FRAME_SIZE];
 			uint8_t txFrame[MAX_FRAME_SIZE];
+			
+			for (uint8_t i = 0; i < sizeof(rxFrame); i++){
+				rxFrame[i] = 0;
+			}
 			
 			for (uint8_t i = 0; i < rxFifoLevel; i++){
 				rxFrame[i] = usart_getc(&usart0);
 			}
 			
 			uint8_t txFrameSize = rs485_processFrame(rxFrame, rxFifoLevel, txFrame);
+			
+			// Enable transmitter when there is data to transmit
+			if (txFrameSize){
+				rs485_setTx();
+			}
 			
 			for (uint8_t j = 0; j < txFrameSize; j++){
 				usart_putc(&usart0, txFrame[j]);
@@ -94,26 +104,41 @@ void rs485_update(){
 uint8_t rs485_processFrame(uint8_t *rxFrame, uint8_t rxFrameSize, uint8_t *txFrame){
 	// Check correct address
 	if (rxFrame[0] != RX_ADDRESS){
-		return 0;
+		rxFrame[0] = 1;
+		//return 0;
 	}
 	
 	// Check correct frame size
 	if (rxFrameSize != rxFrame[1]){
-		return 0;
+		rxFrameSize = 13;
+		//return 0;
 	}
 	
-	// Check crc TODO
+	uint8_t txFrameSize;
 	
+	// Check crc
+	if(crc16(rxFrame, rxFrameSize)){
+		return 0;
+	}
 	
 	// Process frame
 	if (rxFrameSize == 13){
 		
 		processImage_rxFrame(rxFrame+2);	// Process Payload data of rx frame
 		
-		memcpy(txFrame, rxFrame, rxFrameSize);
+		// Create reply frame
+		txFrameSize = processImage_txFrame(txFrame+2, MAX_FRAME_SIZE-4);	// Create payload for tx frame, payload starts at byte 2. Reserve space for 2 byte crc
+		txFrame[0] = RX_ADDRESS | 0x80;
+		txFrame[1] = txFrameSize+4;
+		txFrameSize += 2;
+		
+		uint16_t crc = crc16(txFrame, txFrameSize);
+		txFrame[txFrameSize++] = (uint8_t)(crc >> 0);
+		txFrame[txFrameSize++] = (uint8_t)(crc >> 8);
+		
 	}
 	
-	return rxFrameSize;
+	return txFrameSize;
 	
 }
 

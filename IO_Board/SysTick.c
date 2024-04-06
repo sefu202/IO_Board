@@ -34,6 +34,15 @@ uint16_t systick_getTick(){
 	return tick;
 }
 
+uint16_t systick_deltat(uint16_t later, uint16_t earlier){
+	if (later > earlier){
+		return later - earlier;
+	}
+	else{
+		return (UINT16_MAX - later) + earlier + 1;
+	}
+}
+
 
 // SysTick Interrupt service routine
 ISR (TIMER0_COMPA_vect) {

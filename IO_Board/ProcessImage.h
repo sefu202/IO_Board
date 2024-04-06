@@ -24,9 +24,9 @@ typedef struct {
 		uint8_t DI;
 		uint16_t AI[4];
 		struct env_sensor_t{
-			uint16_t temp;
-			uint16_t hum;
-			uint16_t press;
+			uint32_t temp;
+			uint32_t hum;
+			uint32_t press;
 		}env_sensor[2]; 
 		uint16_t lightSensor;
 	}tx;
@@ -38,5 +38,7 @@ void processImage_rxFrame(uint8_t *pFrame);
 void processImage_writeOutputs();
 
 void processImage_readInputs();
+
+uint8_t processImage_txFrame(uint8_t *pFrame, uint8_t maxLen);
 
 #endif /* PROCESSIMAGE_H_ */

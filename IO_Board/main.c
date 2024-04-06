@@ -8,7 +8,10 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
-#include "RS485.h"
+#include <Fleury_i2cmaster.h>
+#include <EnvSensor/EnvSensor.h>
+#include <AI.h>
+#include "Comm/RS485.h"
 #include "DO.h"
 #include "DI.h"
 #include "PWM.h"
@@ -17,20 +20,29 @@
 
 int main(void)
 {	
+	// Oscillator Calibration
+	OSCCAL = 0x93;
+	
 	// Init
 	DDRA = 0;
 	DDRB = 0;
 	DDRD = 0;
 	DDRD = 0;
 	
+	systick_init();
+	
 	do_init();
 	di_init();
+	ai_init();
+	
 	step1_init();
 	PWM_init(PWM_PRESC_64);
 	
 	rs485_init();
 	
-	systick_init();
+	i2c_init();
+	//envSensor_init();
+	
 	
 	step1_setENA(0);
 	

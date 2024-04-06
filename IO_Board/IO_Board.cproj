@@ -100,43 +100,44 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <ToolchainSettings>
       <AvrGcc>
-        <avrgcc.common.Device>-mmcu=atmega1284p -B "%24(PackRepoDir)\atmel\ATmega_DFP\1.6.364\gcc\dev\atmega1284p"</avrgcc.common.Device>
-        <avrgcc.common.optimization.RelaxBranches>True</avrgcc.common.optimization.RelaxBranches>
-        <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
-        <avrgcc.common.outputfiles.lss>True</avrgcc.common.outputfiles.lss>
-        <avrgcc.common.outputfiles.eep>True</avrgcc.common.outputfiles.eep>
-        <avrgcc.common.outputfiles.srec>True</avrgcc.common.outputfiles.srec>
-        <avrgcc.common.outputfiles.usersignatures>False</avrgcc.common.outputfiles.usersignatures>
-        <avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>
-        <avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>
-        <avrgcc.compiler.symbols.DefSymbols>
-          <ListValues>
-            <Value>DEBUG</Value>
-            <Value>F_CPU=8000000</Value>
-          </ListValues>
-        </avrgcc.compiler.symbols.DefSymbols>
-        <avrgcc.compiler.directories.IncludePaths>
-          <ListValues>
-            <Value>%24(PackRepoDir)\atmel\ATmega_DFP\1.6.364\include\</Value>
-          </ListValues>
-        </avrgcc.compiler.directories.IncludePaths>
-        <avrgcc.compiler.optimization.level>Optimize debugging experience (-Og)</avrgcc.compiler.optimization.level>
-        <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
-        <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
-        <avrgcc.compiler.optimization.DebugLevel>Default (-g2)</avrgcc.compiler.optimization.DebugLevel>
-        <avrgcc.compiler.warnings.AllWarnings>True</avrgcc.compiler.warnings.AllWarnings>
-        <avrgcc.linker.libraries.Libraries>
-          <ListValues>
-            <Value>libm</Value>
-          </ListValues>
-        </avrgcc.linker.libraries.Libraries>
-        <avrgcc.assembler.general.IncludePaths>
-          <ListValues>
-            <Value>%24(PackRepoDir)\atmel\ATmega_DFP\1.6.364\include\</Value>
-          </ListValues>
-        </avrgcc.assembler.general.IncludePaths>
-        <avrgcc.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcc.assembler.debugging.DebugLevel>
-      </AvrGcc>
+  <avrgcc.common.Device>-mmcu=atmega1284p -B "%24(PackRepoDir)\atmel\ATmega_DFP\1.6.364\gcc\dev\atmega1284p"</avrgcc.common.Device>
+  <avrgcc.common.optimization.RelaxBranches>True</avrgcc.common.optimization.RelaxBranches>
+  <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
+  <avrgcc.common.outputfiles.lss>True</avrgcc.common.outputfiles.lss>
+  <avrgcc.common.outputfiles.eep>True</avrgcc.common.outputfiles.eep>
+  <avrgcc.common.outputfiles.srec>True</avrgcc.common.outputfiles.srec>
+  <avrgcc.common.outputfiles.usersignatures>False</avrgcc.common.outputfiles.usersignatures>
+  <avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>
+  <avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>
+  <avrgcc.compiler.symbols.DefSymbols>
+    <ListValues>
+      <Value>DEBUG</Value>
+      <Value>F_CPU=8000000</Value>
+      <Value>BME280_32BIT_ENABLE</Value>
+    </ListValues>
+  </avrgcc.compiler.symbols.DefSymbols>
+  <avrgcc.compiler.directories.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\atmel\ATmega_DFP\1.6.364\include\</Value>
+      <Value>..</Value>
+    </ListValues>
+  </avrgcc.compiler.directories.IncludePaths>
+  <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
+  <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
+  <avrgcc.compiler.optimization.DebugLevel>Default (-g2)</avrgcc.compiler.optimization.DebugLevel>
+  <avrgcc.compiler.warnings.AllWarnings>True</avrgcc.compiler.warnings.AllWarnings>
+  <avrgcc.linker.libraries.Libraries>
+    <ListValues>
+      <Value>libm</Value>
+    </ListValues>
+  </avrgcc.linker.libraries.Libraries>
+  <avrgcc.assembler.general.IncludePaths>
+    <ListValues>
+      <Value>%24(PackRepoDir)\atmel\ATmega_DFP\1.6.364\include\</Value>
+    </ListValues>
+  </avrgcc.assembler.general.IncludePaths>
+  <avrgcc.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcc.assembler.debugging.DebugLevel>
+</AvrGcc>
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
@@ -146,13 +147,34 @@
     <Compile Include="adc.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="bme280.c">
+    <Compile Include="AI.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="bme280.h">
+    <Compile Include="AI.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="bme280_defs.h">
+    <Compile Include="Comm\CRC16.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Comm\CRC16.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Comm\fifo.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Comm\fifo.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Comm\RS485.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Comm\RS485.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Comm\usart.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Comm\usart.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="DI.c">
@@ -167,10 +189,19 @@
     <Compile Include="DO.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="fifo.c">
+    <Compile Include="EnvSensor\bme280.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="fifo.h">
+    <Compile Include="EnvSensor\bme280.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="EnvSensor\bme280_defs.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="EnvSensor\EnvSensor.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="EnvSensor\EnvSensor.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Fleury_i2cmaster.h">
@@ -194,12 +225,6 @@
     <Compile Include="PWM.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="RS485.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="RS485.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="Step1.c">
       <SubType>compile</SubType>
     </Compile>
@@ -212,12 +237,10 @@
     <Compile Include="SysTick.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="usart.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="usart.h">
-      <SubType>compile</SubType>
-    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="EnvSensor" />
+    <Folder Include="Comm" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>

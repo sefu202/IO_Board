@@ -37,6 +37,10 @@ void i2c_init(void)
 
    // enable twi module and acks
    TWCR = _BV(TWEN) |  _BV(TWEA);
+   
+   // (josef, atmega1284p specific) Enable pull up resistors
+    PORTC |= (1 << PORTC0); // SCL
+    PORTC |= (1 << PORTC1); // SDA
 
 
 }/* i2c_init */
@@ -117,8 +121,10 @@ void i2c_start_wait(unsigned char address)
 	        
     	    continue;
     	}
-    	//if( twst != TW_MT_SLA_ACK) return 1;
+    	if( twst != TW_MT_SLA_ACK) return;
     	break;
+		
+		//_delay_us(50);
      }
 
 }/* i2c_start_wait */
