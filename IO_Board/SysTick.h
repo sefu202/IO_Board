@@ -23,4 +23,13 @@ void systick_init();
  */
 uint16_t systick_getTick();
 
+
+/**
+ * @brief calculates diffrence in time between 2 timestamps
+ * @param later the later timestamp
+ * @param earlier the earlier timestamp
+ * @return diffrence in 100us steps
+ */
+uint16_t systick_deltat(uint16_t later, uint16_t earlier);
+
 #endif /* SYSTICK_H_ */

@@ -10,8 +10,11 @@
 #include "DO.h"
 #include "Step1.h"
 #include "PWM.h"
+#include <AI.h>
 #include <assert.h>
 #include <EnvSensor/EnvSensor.h>
+#include <LightSensor/bh1750.h>
+#include <string.h>
 
 static processImage_t ProcessImage;
 
@@ -112,9 +115,20 @@ void processImage_readInputs(){
 	
 	// Read Environment Sensors
 	struct bme280_data envSensor1_data;
+	memset(&envSensor1_data, 0, sizeof(envSensor1_data));
 	envSensor1_data = envSensor1();
 	ProcessImage.tx.env_sensor[0].hum	= envSensor1_data.humidity;
 	ProcessImage.tx.env_sensor[0].press = envSensor1_data.pressure;
 	ProcessImage.tx.env_sensor[0].temp	= envSensor1_data.temperature;
+	
+	struct bme280_data envSensor2_data;
+	memset(&envSensor2_data, 0, sizeof(envSensor2_data));
+	envSensor2_data = envSensor2();
+	ProcessImage.tx.env_sensor[1].hum	= envSensor2_data.humidity;
+	ProcessImage.tx.env_sensor[1].press = envSensor2_data.pressure;
+	ProcessImage.tx.env_sensor[1].temp	= envSensor2_data.temperature;
+	
+	// Read light sensor
+	ProcessImage.tx.lightSensor = bh1750_getLux();
 	
 }

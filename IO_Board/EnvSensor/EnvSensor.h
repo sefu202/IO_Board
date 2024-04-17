@@ -15,6 +15,7 @@
 void envSensor_init();
 
 struct bme280_data envSensor1(void);
+struct bme280_data envSensor2(void);
 
 
 

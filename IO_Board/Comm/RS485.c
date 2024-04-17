@@ -16,25 +16,14 @@ static usart_handle_t usart0;
 static uint8_t usart0Buffer[MAX_FRAME_SIZE*4];
 
 static uint16_t lastRxTick;
-static uint16_t rxDisableTick;
 
-static void rs485_enableRx(){
-	UCSR0B |= (1 << RXEN0);
-}
-
-static void rs485_disableRx(){
-	rxDisableTick = systick_getTick();
-	UCSR0B &= ~(1 << RXEN0);
-}
 
 static void rs485_setTx(){
-	//rs485_disableRx();
 	PORTD |= (1<<PD2)|(1<<PD3);
 	_delay_us(5);
 }
 
 static void rs485_setRx(){
-	//rs485_enableRx();
 	PORTD &= ~((1<<PD2)|(1<<PD3));
 }
 

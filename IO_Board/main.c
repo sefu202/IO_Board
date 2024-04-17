@@ -10,6 +10,7 @@
 #include <util/delay.h>
 #include <Fleury_i2cmaster.h>
 #include <EnvSensor/EnvSensor.h>
+#include <LightSensor/bh1750.h>
 #include <AI.h>
 #include "Comm/RS485.h"
 #include "DO.h"
@@ -22,6 +23,8 @@ int main(void)
 {	
 	// Oscillator Calibration
 	OSCCAL = 0x93;
+	
+	_delay_ms(1000);
 	
 	// Init
 	DDRA = 0;
@@ -40,8 +43,10 @@ int main(void)
 	
 	rs485_init();
 	
+	// I2C init
 	i2c_init();
-	//envSensor_init();
+	envSensor_init();
+	bh1750_init();
 	
 	
 	step1_setENA(0);

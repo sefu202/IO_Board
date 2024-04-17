@@ -123,8 +123,6 @@ void i2c_start_wait(unsigned char address)
     	}
     	if( twst != TW_MT_SLA_ACK) return;
     	break;
-		
-		//_delay_us(50);
      }
 
 }/* i2c_start_wait */
@@ -228,7 +226,9 @@ int8_t i2c_readBlock(uint8_t dev_id, uint8_t reg_addr, uint8_t *reg_data, uint16
      printf("I2C %d Reg=%d  =>  ",dev_id, reg_addr);
    #endif
 
-   i2c_start_wait(dev_id+I2C_WRITE);
+   if (i2c_start(dev_id+I2C_WRITE)){
+	   return 1;
+   }
    ret = i2c_write(reg_addr);
    ret = i2c_rep_start(dev_id+I2C_READ);
 
@@ -264,7 +264,9 @@ int8_t i2c_writeBlock(uint8_t dev_id, uint8_t reg_addr, uint8_t *reg_data, uint1
      printf("I2C %d Reg=%d  <=  ",dev_id, reg_addr);
    #endif
 
-   i2c_start_wait(dev_id + I2C_WRITE);
+   if (i2c_start(dev_id+I2C_WRITE)){
+	   return 1;
+   }
 
    if((ret = i2c_write(reg_addr)))
       return ret;
