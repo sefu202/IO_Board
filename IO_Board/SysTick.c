@@ -7,6 +7,7 @@
 
 #include "SysTick.h"
 #include "Step1.h"
+#include "Windsensor/Windsensor.h"
 
 static uint16_t tick;
 
@@ -52,10 +53,15 @@ ISR (TIMER0_COMPA_vect) {
 	static uint8_t count = 0;
 	count++;
 	
-	if (count >= 10){
+	if (count >= 20){
 		count = 0;
 		step1_update();
 		//step2_update();
+		
+		wind_update();
+	}
+	if (count == 10){
+		wind_update();
 	}
 }
 

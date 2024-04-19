@@ -146,18 +146,13 @@ void usart_putc(usart_handle_t *pHandle, usart_basetype c)
 	
 	if (pHandle != NULL){
 		pHandle->status = USART_NO_ERROR;
-		/*if (! (*(pHandle->baseReg + (&UCSR0A-&UDR0)) & (1 << UDRE0))) // data register is not empty -> put data into the fifo
-		{*/
-			if (fifo_put(&(pHandle->txFifo), &c) != FIFO_NO_ERROR){
-				pHandle->status = USART_TX_FULL;
-			}
+
+		if (fifo_put(&(pHandle->txFifo), &c) != FIFO_NO_ERROR){
+			pHandle->status = USART_TX_FULL;
+			assert(0);
+		}
 			
-			*(pHandle->baseReg + (&UCSR0B-&UDR0)) |= (1 << UDRIE0);	// enable the udr empty interrupt
-		/*}
-		else // otherwise directly write to the udr // well this shit is incorrect
-		{
-			_put_into_udr(pHandle, c);
-		}*/
+		*(pHandle->baseReg + (&UCSR0B-&UDR0)) |= (1 << UDRIE0);	// enable the udr empty interrupt
 	}
 	else{
 		pHandle->status = USART_ID10T;

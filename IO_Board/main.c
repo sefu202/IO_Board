@@ -18,6 +18,7 @@
 #include "PWM.h"
 #include "Step1.h"
 #include "SysTick.h"
+#include "Windsensor/Windsensor.h"
 
 int main(void)
 {	
@@ -40,6 +41,8 @@ int main(void)
 	
 	step1_init();
 	PWM_init(PWM_PRESC_64);
+	
+	wind_init();
 	
 	rs485_init();
 	

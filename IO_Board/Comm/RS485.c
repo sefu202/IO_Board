@@ -49,6 +49,14 @@ void rs485_init(){
 	rs485_setRx();
 }
 
+static void rs485_transmit(unsigned char data) {
+	// Wait for empty transmit buffer
+	while (!(UCSR0A & (1<<UDRE0)));
+	
+	// Put data into buffer, sends the data
+	UDR0 = data;
+}
+
 void rs485_update(){
 	uint8_t rxFifoLevel = usart_getRxFifoLevel(&usart0);
 	
@@ -83,7 +91,7 @@ void rs485_update(){
 			}
 			
 			for (uint8_t j = 0; j < txFrameSize; j++){
-				usart_putc(&usart0, txFrame[j]);
+				rs485_transmit(txFrame[j]);
 			}
 		}
 		
@@ -117,13 +125,15 @@ uint8_t rs485_processFrame(uint8_t *rxFrame, uint8_t rxFrameSize, uint8_t *txFra
 		
 		// Create reply frame
 		txFrameSize = processImage_txFrame(txFrame+2, MAX_FRAME_SIZE-4);	// Create payload for tx frame, payload starts at byte 2. Reserve space for 2 byte crc
-		txFrame[0] = RX_ADDRESS | 0x80;
-		txFrame[1] = txFrameSize+4;
-		txFrameSize += 2;
+		if (txFrameSize > 0){
+			txFrame[0] = RX_ADDRESS | 0x80;
+			txFrame[1] = txFrameSize+4;
+			txFrameSize += 2;
 		
-		uint16_t crc = crc16(txFrame, txFrameSize);
-		txFrame[txFrameSize++] = (uint8_t)(crc >> 0);
-		txFrame[txFrameSize++] = (uint8_t)(crc >> 8);
+			uint16_t crc = crc16(txFrame, txFrameSize);
+			txFrame[txFrameSize++] = (uint8_t)(crc >> 0);
+			txFrame[txFrameSize++] = (uint8_t)(crc >> 8);
+		}
 		
 	}
 	
@@ -133,7 +143,7 @@ uint8_t rs485_processFrame(uint8_t *rxFrame, uint8_t rxFrameSize, uint8_t *txFra
 
 
 ISR (USART0_UDRE_vect){
-	usart_udre_irq(&usart0);
+	//usart_udre_irq(&usart0);
 }
 
 ISR (USART0_RX_vect){

@@ -29,7 +29,7 @@ void di_init(){
 uint8_t di_get(){
 	uint8_t ret = 0xff;
 	di_setMux(0);
-	_delay_us(1);	// one us delay to allow the multiplexer to switch (propagation delay is max 220ns)
+	_delay_us(10);	// one us delay to allow the multiplexer to switch (propagation delay is max 220ns)
 	
 	// DI7 Set
 	if (PINA & (1 << PA4)){
@@ -49,7 +49,7 @@ uint8_t di_get(){
 	}
 	
 	di_setMux(1);
-	_delay_us(1);	// one us delay to allow the multiplexer to switch (propagation delay is max 220ns)
+	_delay_us(10);	// one us delay to allow the multiplexer to switch (propagation delay is max 220ns)
 		
 	// DI8 Set
 	if (PINA & (1 << PA4)){

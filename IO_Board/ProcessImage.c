@@ -10,6 +10,7 @@
 #include "DO.h"
 #include "Step1.h"
 #include "PWM.h"
+#include <util/delay.h>
 #include <AI.h>
 #include <assert.h>
 #include <EnvSensor/EnvSensor.h>
@@ -97,8 +98,15 @@ uint8_t processImage_txFrame(uint8_t *pFrame, uint8_t maxLen){
 	pFrame[i++] = (uint8_t)(ProcessImage.tx.lightSensor >> 8);
 	pFrame[i++] = (uint8_t)(ProcessImage.tx.lightSensor >> 0);
 	
+	// Windsensor
+	pFrame[i++] = ProcessImage.tx.maxWindspeed;
+	
+	// errors
+	pFrame[i++] = ProcessImage.tx.errors;
+	
 	// Check allocated storage while in debug mode
 	assert(maxLen >= i);
+	assert (i <= maxLen);
 	
 	return i;	// Size of payload
 }
@@ -106,6 +114,8 @@ uint8_t processImage_txFrame(uint8_t *pFrame, uint8_t maxLen){
 void processImage_readInputs(){
 	// Read Digital Inputs
 	ProcessImage.tx.DI = di_get();
+	_delay_us(100);
+	ProcessImage.tx.DI &= di_get();
 	
 	// Read analog inputs
 	ProcessImage.tx.AI[0] = ai_getValue(0);
@@ -130,5 +140,11 @@ void processImage_readInputs(){
 	
 	// Read light sensor
 	ProcessImage.tx.lightSensor = bh1750_getLux();
+	
+	// Read wind sensor
+	ProcessImage.tx.maxWindspeed = wind_getMaxSpeed();
+	
+	// Error flags
+	ProcessImage.tx.errors = 0;
 	
 }

@@ -29,6 +29,8 @@ typedef struct {
 			uint32_t press;
 		}env_sensor[2]; 
 		uint16_t lightSensor;
+		uint8_t maxWindspeed;
+		uint8_t errors;
 	}tx;
 	
 }processImage_t;
