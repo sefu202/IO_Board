@@ -47,6 +47,10 @@ void processImage_writeOutputs(){
 	step1(ProcessImage.rx.motor[2].flags & (1 << 0), ProcessImage.rx.motor[2].flags & (1 << 1), ProcessImage.rx.motor[2].speed);
 }
 
+void processImage_resetOutputs(){
+	memset(&(ProcessImage.rx), 0, sizeof(ProcessImage.rx));
+}
+
 uint8_t processImage_txFrame(uint8_t *pFrame, uint8_t maxLen){
 	
 	processImage_readInputs();

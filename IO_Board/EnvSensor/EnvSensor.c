@@ -1,8 +1,8 @@
-/*
- * EnvSensor.c
+/**
+ * @file EnvSensor.c
  *
  * Created: 01.04.2024 18:57:23
- *  Author: josef
+ * @author Josef Aschwanden
  */ 
 
 

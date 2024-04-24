@@ -1,8 +1,8 @@
-/*
- * AI.c
+/**
+ * @file AI.c
  *
  * Created: 02.04.2024 16:19:33
- *  Author: josef
+ * @author Josef Aschwanden
  */ 
 
 #include "AI.h"

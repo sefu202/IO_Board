@@ -1,15 +1,15 @@
-/*
- * Windsensor.h
+/**
+ * @file Windsensor.h
  *
  * Created: 19.04.2024 13:00:50
- *  Author: josef
+ * @author Josef Aschwanden
  */ 
 
 
 #ifndef WINDSENSOR_H_
 #define WINDSENSOR_H_
 
-#define NUM_MEASUREMENTS_STORED	128
+#define NUM_MEASUREMENTS_STORED	128 /// Number of measurements stored in the ring buffer
 
 #include <DI.h>
 #include <SysTick.h>

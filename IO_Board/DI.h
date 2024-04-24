@@ -1,8 +1,8 @@
-/*
- * DI.h
+/**
+ * @file DI.h
  *
  * Created: 28.03.2024 18:05:29
- *  Author: josef
+ * @author Josef Aschwanden
  */ 
 
 

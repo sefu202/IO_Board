@@ -60,12 +60,7 @@ static void rs485_transmit(unsigned char data) {
 void rs485_update(){
 	uint8_t rxFifoLevel = usart_getRxFifoLevel(&usart0);
 	
-	// Reenable Rx if it was disabled for more than 20ms in any case
-	/*if ((systick_getTick() - rxDisableTick) > 200){
-		rs485_setRx();
-	}*/
-	
-	if (systick_deltat(systick_getTick(), lastRxTick) > 50 && rxFifoLevel) {	// 3ms since last symbol received
+	if (systick_deltat(systick_getTick(), lastRxTick) > 50 && rxFifoLevel) {	// 5ms since last symbol received
 		
 		if (rxFifoLevel > MAX_FRAME_SIZE){	// clear bogus content
 			fifo_flush(&(usart0.rxFifo));
@@ -95,6 +90,10 @@ void rs485_update(){
 			}
 		}
 		
+	}
+	if (systick_deltat(systick_getTick(), lastRxTick) > 2000){	// Longer than 200ms no data received -> reset outputs
+		processImage_resetOutputs();
+		processImage_writeOutputs();
 	}
 }
 

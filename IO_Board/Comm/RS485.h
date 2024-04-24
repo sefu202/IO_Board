@@ -20,7 +20,10 @@
  */
 void rs485_init();
 
-
+/**
+ * @brief Periodic update of rs485 module
+ * 
+ */
 void rs485_update();
 
 uint8_t rs485_processFrame(uint8_t *rxFrame, uint8_t rxFrameSize, uint8_t *txFrame);

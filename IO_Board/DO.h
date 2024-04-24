@@ -1,8 +1,8 @@
-/*
- * DO.h
+/**
+ * @file DO.h
  *
  * Created: 22.03.2024 22:58:10
- *  Author: josef
+ * @author Josef Aschwanden
  */ 
 
 
@@ -11,8 +11,16 @@
 
 #include <stdint.h>
 
+/**
+ * @brief Initializes digital outputs
+ * 
+ */
 void do_init();
 
+/**
+ * @brief Writes value to digital outputs
+ * @note Writes all digital outputs at once 
+ */
 void do_set(uint8_t);
 
 

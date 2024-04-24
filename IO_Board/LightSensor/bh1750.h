@@ -1,8 +1,8 @@
-/*
- * bh1750.h
+/**
+ * @file bh1750.h
  *
  * Created: 06.04.2024 19:20:10
- *  Author: josef
+ *  @author Josef Aschwanden
  */ 
 
 

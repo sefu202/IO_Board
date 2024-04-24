@@ -1,8 +1,8 @@
-/*
- * DI.c
+/**
+ * @file DI.c
  *
  * Created: 28.03.2024 18:10:08
- *  Author: josef
+ * @author Josef Aschwanden
  */ 
 
 #include "DI.h"

@@ -1,8 +1,8 @@
-/*
- * DO.c
+/**
+ * @file DO.c
  *
  * Created: 22.03.2024 22:58:44
- *  Author: josef
+ * @author Josef Aschwanden
  */ 
 
 #include <avr/io.h>

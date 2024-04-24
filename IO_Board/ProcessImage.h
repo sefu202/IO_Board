@@ -37,6 +37,8 @@ typedef struct {
 
 void processImage_rxFrame(uint8_t *pFrame);
 
+void processImage_resetOutputs();
+
 void processImage_writeOutputs();
 
 void processImage_readInputs();

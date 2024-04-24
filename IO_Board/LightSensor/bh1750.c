@@ -1,15 +1,15 @@
-/*
- * bh1750.c
+/**
+ * @file bh1750.c
  *
  * Created: 06.04.2024 19:20:22
- *  Author: josef
+ * @author Josef Aschwanden
  */ 
 
 #include "bh1750.h"
 
-#define BH1750_ADDR 0x23  // I2C address of BH1750 sensor
+#define BH1750_ADDR 0x23  /// I2C address of BH1750 sensor
 
-static uint8_t isConnected;
+static uint8_t isConnected;	/// Connection status of light sensor
 
 void bh1750_init(){
 	isConnected = !i2c_start(BH1750_ADDR<<1);

@@ -1,8 +1,8 @@
-/*
- * IO_Board.c
+/**
+ * @file IO_Board.c
  *
  * Created: 08.02.2024 15:38:28
- * Author : josef
+ * @author Josef Aschwanden
  */ 
 
 #include <avr/io.h>
@@ -20,6 +20,11 @@
 #include "SysTick.h"
 #include "Windsensor/Windsensor.h"
 
+/**
+ * @brief Main Routine for IO-Print
+ * 
+ * @return int never
+ */
 int main(void)
 {	
 	// Oscillator Calibration

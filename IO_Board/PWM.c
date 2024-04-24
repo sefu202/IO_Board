@@ -8,10 +8,6 @@
 #include "PWM.h"
 
 void PWM_init(uint8_t prescaler){
-	
-	// Set PWM1 and PWM2 as output
-	DDRD |= (1 << PD4) | (1 << PD5);
-	
 	// Set non inverting PWM mode for PWM output A and B
 	TCCR1A = (1 << COM1A1) | (1 << COM1B1) | (1 << WGM10);
 	
@@ -25,10 +21,22 @@ void PWM_init(uint8_t prescaler){
 
 void PWM_setOutput1(uint8_t value){
 	OCR1A = value;
+	if (value){
+		DDRD |= (1 << PD5);
+	}
+	else{
+		DDRD &= ~(1 << PD5);
+	}
 }
 
 void PWM_setOutput2(uint8_t value){
 	OCR1B = value;
+	if (value){
+		DDRD |= (1 << PD4);
+	}
+	else{
+		DDRD &= ~(1 << PD4);
+	}
 }
 
 
